@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 17:24:44 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 17:43:50 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct	s_ptr
 int     ft_atoi(const char *nptr);
 int     ft_philosoph(t_data *all);
 void ft_usleep(long sec);
+void *life_style(void *ptr);
 void    ft_putstr(char *s);
 void	ft_write_text(char *s, t_ptr *filo);
 long    my_get_time(void);
