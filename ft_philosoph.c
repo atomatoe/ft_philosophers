@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 18:04:44 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 22:38:15 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void		ft_init_struct(t_ptr *ptr, t_data *all, t_table *table)
 {
 	ptr->all = all;
 	ptr->table = table;
+	ptr->last_eat_time = my_get_time();
 }
 
 static int		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
@@ -52,12 +53,14 @@ int				ft_philosoph(t_data *all)
 	t_table	table;
 
 	all->start_time = my_get_time();
+	all->philo_dead = 0;
 	if (!(table.forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 		* all->number_of_philosophers)))
 		return (1);
 	if (!(ptr = (t_ptr *)malloc(sizeof(t_ptr) * all->number_of_philosophers)))
 		return (1);
 	pthread_mutex_init(&table.text, NULL); // init вывода текста
+	pthread_mutex_init(&table.time, NULL);
 	i = 0;
 	while (i != all->number_of_philosophers)
 	{

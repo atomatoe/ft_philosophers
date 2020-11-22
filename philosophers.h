@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 17:43:50 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 22:35:32 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_table
     pthread_mutex_t *forks;
     pthread_mutex_t time;
     pthread_mutex_t text;
+    pthread_mutex_t dead;
 }				t_table;
 
 typedef struct	s_data
@@ -34,6 +35,7 @@ typedef struct	s_data
     long        time_to_sleep;  // время поспать миллисекунды
     long        start_time;
     int         number_of_times_each_philosopher_must_eat;  // сколько раз могут всего покушать
+    int         philo_dead;
 }				t_data;
 
 typedef struct	s_ptr
@@ -50,13 +52,13 @@ typedef struct	s_ptr
 }				t_ptr;
 
 
-int     ft_atoi(const char *nptr);
-int     ft_philosoph(t_data *all);
-void ft_usleep(long sec);
-void *life_style(void *ptr);
-void    ft_putstr(char *s);
+int		ft_atoi(const char *nptr);
+int		ft_philosoph(t_data *all);
+void	ft_usleep(long sec);
+void	*life_style(void *ptr);
+void	ft_putstr(char *s);
 void	ft_write_text(char *s, t_ptr *filo);
-long    my_get_time(void);
+long	my_get_time(void);
 char	*ft_itoa(int nb);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:01 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 18:02:54 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 22:05:02 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int ft_parse_param(char **argv, t_data *all)
 {
+	all->number_of_times_each_philosopher_must_eat = -1;
 	all->number_of_philosophers = ft_atoi(argv[1]);
 	all->time_to_die = ft_atoi(argv[2]);
 	all->time_to_eat = ft_atoi(argv[3]);
