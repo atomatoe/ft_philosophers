@@ -6,15 +6,32 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 16:11:15 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 17:23:56 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+void ft_usleep(long sec)
+{
+	long fix_time;
+
+	fix_time = my_get_time();
+	while (my_get_time() - fix_time < sec)
+		usleep(10);
+}
+
 void	ft_write_text(char *s, t_ptr *filo)
 {
+	long times;
+
 	pthread_mutex_lock(&filo->table->text);
+	times = my_get_time();
+	ft_putstr(ft_itoa(times - filo->all->start_time));
+	ft_putstr(" Философ ");
+	ft_putstr(ft_itoa(filo->philo_id));
+	ft_putstr(s);
+	pthread_mutex_unlock(&filo->table->text);
 }
 
 void	ft_putstr(char *s)

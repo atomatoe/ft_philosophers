@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 16:09:56 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 17:24:44 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_data
     long        time_to_die;   // время до смерти миллисекунды
     long        time_to_eat;    // время на покушать миллисекунды
     long        time_to_sleep;  // время поспать миллисекунды
+    long        start_time;
     int         number_of_times_each_philosopher_must_eat;  // сколько раз могут всего покушать
 }				t_data;
 
@@ -43,7 +44,7 @@ typedef struct	s_ptr
     int         status_join;
     int         left_fork;
     int         right_fork;
-    long        time;
+    long        last_eat_time;
     t_data      *all;
     t_table     *table;
 }				t_ptr;
@@ -51,7 +52,10 @@ typedef struct	s_ptr
 
 int     ft_atoi(const char *nptr);
 int     ft_philosoph(t_data *all);
+void ft_usleep(long sec);
 void    ft_putstr(char *s);
+void	ft_write_text(char *s, t_ptr *filo);
 long    my_get_time(void);
+char	*ft_itoa(int nb);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 16:11:13 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/22 17:24:48 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,34 @@ static void ft_philo_eat(t_ptr *filo)
     filo->right_fork = filo->philo_id - 1;
     if(filo->right_fork < 0)
         filo->right_fork = filo->all->number_of_philosophers - 1;
-    
-    // printf("philo id = %d\n", filo->philo_id);
-    // printf("left fork = %d\n", filo->left_fork);
-    // printf("right fork = %d\n\n", filo->right_fork);
-
     status = filo->philo_id % 2; // 0 - четный 1 - нечетный
     if(status == 1)
     {
-        printf("Философ %d думает\n", filo->philo_id);
+        ft_write_text(" думает\n", filo);
         pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
         pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
-        printf("Философ %d взял вилку\n", filo->philo_id);
-        printf("Философ %d начал кушать\n", filo->philo_id);
-        usleep(filo->all->time_to_eat);
-        printf("Философ %d покушал\n", filo->philo_id);
+        ft_write_text(" взял вилку\n", filo);
+        ft_write_text(" начал кушать\n", filo);
+        ft_usleep(filo->all->time_to_eat);
+        ft_write_text(" покушал\n", filo);
         pthread_mutex_unlock(&filo->table->forks[filo->left_fork]);
         pthread_mutex_unlock(&filo->table->forks[filo->right_fork]);
-        printf("Философ %d спит\n", filo->philo_id);
-        usleep(filo->all->time_to_sleep);
+        ft_write_text(" лег спать\n", filo);
+        ft_usleep(filo->all->time_to_sleep);
     }
     if(status != 1)
     {
-        printf("Философ %d думает\n", filo->philo_id);
+        ft_write_text(" думает\n", filo);
         pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
         pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
-        printf("Философ %d взял вилку\n", filo->philo_id);
-        printf("Философ %d начал кушать\n", filo->philo_id);
-        usleep(filo->all->time_to_eat * 1000);
-        printf("Философ %d покушал\n", filo->philo_id);
+        ft_write_text(" взял вилку\n", filo);
+        ft_write_text(" начал кушать\n", filo);
+        ft_usleep(filo->all->time_to_eat);
+        ft_write_text(" покушал\n", filo);
         pthread_mutex_unlock(&filo->table->forks[filo->right_fork]);
         pthread_mutex_unlock(&filo->table->forks[filo->left_fork]);
-        printf("Философ %d спит\n", filo->philo_id);
-        usleep(filo->all->time_to_sleep * 1000);
+        ft_write_text(" лег спать\n", filo);
+        ft_usleep(filo->all->time_to_sleep);
     }
 }
 
@@ -64,14 +59,13 @@ static void *life_style(void *ptr)
     // printf("Количество философов: = %d\n", filo->all->number_of_philosophers);
     // printf("Время до еды: = %ld\n", filo->all->time_to_eat);
     //printf("id философа = %d\n", filo->philo_id);
-    ft_philo_eat(filo);
+    while(1)
+        ft_philo_eat(filo);
     return(NULL);
 }
 
 static void ft_init_struct(t_ptr *ptr, t_data *all, t_table *table)
 {
-    long test = my_get_time();
-    printf("время = %ld\n", test);
     ptr->all = all;
     ptr->table = table;
 }
@@ -84,6 +78,7 @@ int ft_philosoph(t_data *all)
     t_ptr *ptr;
     t_table table;
 
+    all->start_time = my_get_time();
     if(!(table.forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * all->number_of_philosophers)))
         return(1);
     if(!(ptr = (t_ptr *)malloc(sizeof(t_ptr) * all->number_of_philosophers)))
