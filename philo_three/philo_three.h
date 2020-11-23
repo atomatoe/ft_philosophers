@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 12:57:48 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:18 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <semaphore.h>
+#include <sys/types.h>
+#include <signal.h>
 
 typedef struct	s_table
 {
-    pthread_mutex_t *forks;
-    pthread_mutex_t time;
-    pthread_mutex_t text;
-    //pthread_mutex_t dead;
+    sem_t 		*forks;
+    sem_t 		*time;
+    sem_t 		*text;
+    sem_t 		*waiter;
+    sem_t 		*death;
+    sem_t 		*death_philo;
 }				t_table;
 
 typedef struct	s_data
@@ -52,15 +57,14 @@ typedef struct	s_ptr
     t_table     *table;
 }				t_ptr;
 
-
 int		ft_atoi(const char *nptr);
 int		ft_philosoph(t_data *all);
 void	ft_usleep(long sec);
-void	*life_style(void *ptr);
+void	life_style(t_ptr *ptr);
 void	ft_putstr(char *s);
 void	ft_write_text(char *s, t_ptr *filo);
 long	my_get_time(void);
-char	*ft_itoa(int nb);
-char			*ft_strjoin(char const *s1, char const *s2);
+char	*ft_itoa(long nb);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

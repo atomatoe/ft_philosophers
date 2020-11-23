@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 17:43:21 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 00:18:57 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:27 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 static void	ft_philo_eat(t_ptr *filo)
 {
@@ -19,8 +19,8 @@ static void	ft_philo_eat(t_ptr *filo)
 	ft_write_text(" взял вилку\n", filo);
 	sem_wait(filo->table->forks);
 	ft_write_text(" взял вилку\n", filo);
-	ft_write_text(" кушает\n", filo);
 	sem_post(filo->table->waiter);
+	ft_write_text(" кушает\n", filo);
 	sem_wait(filo->table->time);
 	filo->last_eat_time = my_get_time();
 	sem_post(filo->table->time);
@@ -36,31 +36,30 @@ static void *ft_philo_dead(void *ptr)
 {
 	t_ptr *filo_dead;
 
-	filo_dead = (t_ptr *)ptr;
-	while (1)
+	filo_dead = ptr;
+	while(1)
 	{
 		sem_wait(filo_dead->table->time);
 		if ((my_get_time() - filo_dead->last_eat_time) > filo_dead->all->time_to_die)
-		{
-			// printf("here\n");
 			break ;
-		}
 		sem_post(filo_dead->table->time);
 	}
-	sem_post(filo_dead->table->time);
-	if (filo_dead->count_eat != filo_dead->all->number_of_times_each_philosopher_must_eat)
+	if(filo_dead->count_eat != filo_dead->all->number_of_times_each_philosopher_must_eat)
 		ft_write_text(" умер\n", filo_dead);
 	filo_dead->all->philo_dead = 1;
+	sem_post(filo_dead->table->time);
+	//sem_post(filo_dead->table->death);
 	return (NULL);
 }
 
-void		*life_style(void *ptr)
+void		life_style(t_ptr *ptr)
 {
 	pthread_t   thread_dead;
 	int			status_join;
+	int 		i;
 	t_ptr		*filo;
 
-	filo = (t_ptr *)ptr;
+	filo = ptr;
 	pthread_create(&thread_dead, NULL, ft_philo_dead, filo);
 	filo->count_eat = 0;
 	while (1)
@@ -73,5 +72,4 @@ void		*life_style(void *ptr)
 		filo->count_eat ++;
 	}
 	pthread_join(thread_dead, (void**)&status_join);
-	return (NULL);
 }

@@ -6,21 +6,23 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 17:43:21 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 13:33:40 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:16:45 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo_one.h"
 
 static void	ft_philo_eat_even(t_ptr *filo)
 {
 	pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
-	pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
-	filo->last_eat_time = my_get_time();
 	ft_write_text(" взял вилку\n", filo);
+	pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
+	ft_write_text(" взял вилку\n", filo);
+	pthread_mutex_lock(&filo->table->time);
+	filo->last_eat_time = my_get_time();
+	pthread_mutex_unlock(&filo->table->time);
 	ft_write_text(" начал кушать\n", filo);
 	ft_usleep(filo->all->time_to_eat);
-	ft_write_text(" покушал\n", filo);
 	pthread_mutex_unlock(&filo->table->forks[filo->right_fork]);
 	pthread_mutex_unlock(&filo->table->forks[filo->left_fork]);
 	ft_write_text(" лег спать\n", filo);
@@ -31,12 +33,14 @@ static void	ft_philo_eat_even(t_ptr *filo)
 static void	ft_philo_eat_neven(t_ptr *filo)
 {
 	pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
-	pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
-	filo->last_eat_time = my_get_time();
 	ft_write_text(" взял вилку\n", filo);
+	pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
+	ft_write_text(" взял вилку\n", filo);
+	pthread_mutex_lock(&filo->table->time);
+	filo->last_eat_time = my_get_time();
+	pthread_mutex_unlock(&filo->table->time);
 	ft_write_text(" начал кушать\n", filo);
 	ft_usleep(filo->all->time_to_eat);
-	ft_write_text(" покушал\n", filo);
 	pthread_mutex_unlock(&filo->table->forks[filo->left_fork]);
 	pthread_mutex_unlock(&filo->table->forks[filo->right_fork]);
 	ft_write_text(" лег спать\n", filo);
@@ -76,7 +80,7 @@ void		*life_style(void *ptr)
 	filo->right_fork = filo->philo_id - 1;
 	if (filo->right_fork < 0)
 		filo->right_fork = filo->all->number_of_philosophers - 1;
-	status = filo->philo_id % 2; // 0 - четный 1 - нечетный
+	status = filo->philo_id % 2;
 	pthread_create(&thread_dead, NULL, ft_philo_dead, filo);
 	filo->count_eat = 0;
 	while (1)

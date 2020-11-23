@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 23:22:57 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:39 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 void ft_usleep(long sec)
 {
@@ -34,17 +34,16 @@ void	ft_write_text(char *s, t_ptr *filo)
 	s1 = ft_itoa(times - filo->all->start_time);
 	s2 = ft_strjoin(s1, " Философ ");
 	free(s1);
-	s1 = ft_itoa(filo->philo_id + 1);
+	s1 = ft_itoa(filo->philo_id);
 	s3 = ft_strjoin(s2, s1);
 	free(s1);
 	free(s2);
 	text = ft_strjoin(s3, s);
 	free(s3);
-	sem_wait(filo->table->death_philo);
-	if (filo->all->philo_dead != 1)
-		ft_putstr(text);
+	//sem_wait(filo->table->death_philo);
+	ft_putstr(text);
 	free(text);
-	sem_post(filo->table->death_philo);
+	//sem_post(filo->table->death_philo);
 	sem_post(filo->table->text);
 }
 

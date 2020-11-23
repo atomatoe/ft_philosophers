@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:18:04 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:30 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 static void		ft_init_struct(t_ptr *ptr, t_data *all, t_table *table)
 {
@@ -19,44 +19,45 @@ static void		ft_init_struct(t_ptr *ptr, t_data *all, t_table *table)
 	ptr->last_eat_time = my_get_time();
 }
 
-static int		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
+static void		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
 {
-	int			i;
-	pthread_t	thread_philo[all->number_of_philosophers];
+	int		i;
+	int		philos[all->number_of_philosophers];
+	pid_t	philo;
 
 	i = 0;
 	all->start_time = my_get_time();
-	while (i != all->number_of_philosophers)
+	while (i < all->number_of_philosophers)
 	{
-		ptr[i].philo_id = i;
-		ft_init_struct(&ptr[i], all, table);
-		ptr[i].status = pthread_create(&thread_philo[i],
-			NULL, life_style, &ptr[i]);
-		if (ptr[i].status != 0)
-			return (1);
-		i++;
+		philo = fork();
+		if(philo == 0)
+		{
+			ptr[i].philo_id = i;
+			ft_init_struct(&ptr[i], all, table);
+			life_style(&ptr[i]);
+			exit(0);
+		}
+		else
+			philos[i++] = philo;
 	}
 	i = 0;
-	while (i != all->number_of_philosophers)
-	{
-		ptr[i].status = pthread_join(thread_philo[i],
-			(void**)&ptr[i].status_join);
-		if (ptr[i].status != 0)
-			return (1);
-		i++;
-	}
-	return (0);
+	sem_wait(table->death);
+	while(i < all->number_of_philosophers)
+		kill(philos[i++], SIGKILL);
 }
 
 int				ft_philosoph(t_data *all)
 {
-	t_ptr	ptr[all->number_of_philosophers];
+	t_ptr	*ptr;
 	t_table	table;
 
 	all->philo_dead = 0;
-	sem_unlink("forks");
+	if (!(ptr = (t_ptr *)malloc(sizeof(t_ptr) * all->number_of_philosophers)))
+		return (1);
+	sem_unlink("fork");
 	sem_unlink("text");
 	sem_unlink("waiter");
+	sem_unlink("death");
 	sem_unlink("death_philo");
 	if ((table.forks = sem_open("forks", O_CREAT, 0660, all->number_of_philosophers)) == SEM_FAILED)
 		return (1);
@@ -66,11 +67,11 @@ int				ft_philosoph(t_data *all)
 		return (1);
 	if ((table.death_philo = sem_open("death_philo", O_CREAT, NULL, 1)) == SEM_FAILED)
 		return (1);
-	if (ft_start_simulation(ptr, all, &table) == 1)
-		return (1);	
+	ft_start_simulation(ptr, all, &table);
 	sem_close(table.forks);
 	sem_close(table.text);
 	sem_close(table.waiter);
+	sem_close(table.death);
 	sem_close(table.death_philo);
 	return (0);
 }

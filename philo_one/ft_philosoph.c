@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 11:54:33 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:16:52 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo_one.h"
 
 static void		ft_init_struct(t_ptr *ptr, t_data *all, t_table *table)
 {

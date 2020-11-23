@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:01 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 23:23:01 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:34 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 static int ft_parse_param(char **argv, t_data *all)
 {

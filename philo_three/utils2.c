@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 16:20:58 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:17:05 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:42 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_three.h"
 
 static size_t	ft_strlen(const char *b)
 {

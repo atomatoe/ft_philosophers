@@ -6,12 +6,12 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 14:31:11 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/23 23:22:06 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,7 +26,7 @@ typedef struct	s_table
     sem_t *time;
     sem_t *text;
     sem_t *waiter;
-    //pthread_mutex_t dead;
+    sem_t *death_philo;
 }				t_table;
 
 typedef struct	s_data
@@ -42,12 +42,10 @@ typedef struct	s_data
 
 typedef struct	s_ptr
 {
-    pthread_t   thread;
+    // pthread_t   thread;
     int         philo_id;
     int         status;
     int         status_join;
-    int         left_fork;
-    int         right_fork;
     long        last_eat_time;
     int         count_eat;
     t_data      *all;
@@ -62,7 +60,7 @@ void	*life_style(void *ptr);
 void	ft_putstr(char *s);
 void	ft_write_text(char *s, t_ptr *filo);
 long	my_get_time(void);
-char	*ft_itoa(int nb);
+char	*ft_itoa(long nb);
 char    *ft_strjoin(char const *s1, char const *s2);
 
 #endif

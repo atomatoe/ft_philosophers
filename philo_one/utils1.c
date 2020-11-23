@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 13:02:00 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 01:17:02 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo_one.h"
 
 void ft_usleep(long sec)
 {
@@ -18,24 +18,31 @@ void ft_usleep(long sec)
 
 	fix_time = my_get_time();
 	while (my_get_time() - fix_time < sec)
-		usleep(10);
+		usleep(1);
 }
 
 void	ft_write_text(char *s, t_ptr *filo)
 {
 	long times;
 	char *text;
-	char *buf;
+	char *s1;
+	char *s2;
+	char *s3;
 
-	times = my_get_time();
-	text = ft_itoa(times - filo->all->start_time);
-	text = ft_strjoin(text, " Философ ");
-	buf = ft_itoa(filo->philo_id);
-	text = ft_strjoin(text, buf);
-	text = ft_strjoin(text, s);
 	pthread_mutex_lock(&filo->table->text);
+	times = my_get_time();
+	s1 = ft_itoa(times - filo->all->start_time);
+	s2 = ft_strjoin(s1, " Философ ");
+	free(s1);
+	s1 = ft_itoa(filo->philo_id);
+	s3 = ft_strjoin(s2, s1);
+	free(s1);
+	free(s2);
+	text = ft_strjoin(s3, s);
+	free(s3);
 	if (filo->all->philo_dead != 1)
 		ft_putstr(text);
+	free(text);
 	pthread_mutex_unlock(&filo->table->text);
 }
 

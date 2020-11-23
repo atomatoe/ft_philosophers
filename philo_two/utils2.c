@@ -6,11 +6,11 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 16:20:58 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/23 14:29:55 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/23 23:23:00 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo_two.h"
 
 static size_t	ft_strlen(const char *b)
 {
@@ -22,50 +22,45 @@ static size_t	ft_strlen(const char *b)
 	return (a);
 }
 
-static	int	len(long n)
+static int	ft_len(int n)
 {
-	int		d;
+	int size;
 
-	d = 1;
+	size = 1;
 	if (n < 0)
 	{
-		n = n * -1;
-		d++;
+		size++;
+		n = -n;
 	}
 	while (n >= 10)
 	{
-		n = n / 10;
-		d++;
+		size++;
+		n /= 10;
 	}
-	return (d);
+	return (size);
 }
 
-char		*ft_itoa(int nb)
+char		*ft_itoa(long nb)
 {
-	char	*str;
 	int		i;
-	int		f;
-	long	n;
+	char	*res;
 
-	n = nb;
-	f = 0;
-	i = len(n);
-	if (!(str = (char *)malloc(sizeof(char) * i + 1)))
+	i = ft_len(nb);
+	if (!(res = (char *)malloc(sizeof(char) * i + 1)))
 		return (NULL);
-	str[i] = '\0';
-	if (n < 0)
+	res[i--] = '\0';
+	if (nb < 0)
 	{
-		str[0] = '-';
-		n = n * -1;
-		f = 1;
+		res[0] = '-';
+		nb = -nb;
 	}
-	while ((i - f) > 0)
+	while (nb >= 10)
 	{
-		str[i - 1] = n % 10 + 48;
-		n = n / 10;
-		i--;
+		res[i--] = nb % 10 + '0';
+		nb /= 10;
 	}
-	return (str);
+	res[i] = nb + '0';
+	return (res);
 }
 
 static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
