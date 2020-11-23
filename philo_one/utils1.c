@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 23:10:20 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/23 13:02:00 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,18 @@ void ft_usleep(long sec)
 void	ft_write_text(char *s, t_ptr *filo)
 {
 	long times;
+	char *text;
+	char *buf;
 
+	times = my_get_time();
+	text = ft_itoa(times - filo->all->start_time);
+	text = ft_strjoin(text, " Философ ");
+	buf = ft_itoa(filo->philo_id);
+	text = ft_strjoin(text, buf);
+	text = ft_strjoin(text, s);
 	pthread_mutex_lock(&filo->table->text);
 	if (filo->all->philo_dead != 1)
-	{
-		times = my_get_time();
-		ft_putstr(ft_itoa(times - filo->all->start_time));
-		ft_putstr(" Философ ");
-		ft_putstr(ft_itoa(filo->philo_id));
-		ft_putstr(s);
-	}
+		ft_putstr(text);
 	pthread_mutex_unlock(&filo->table->text);
 }
 
