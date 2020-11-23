@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 17:43:21 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 23:31:58 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/23 11:57:59 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void *ft_philo_dead(void *ptr)
 			break ;
 		pthread_mutex_unlock(&filo_dead->table->time);
 	}
-	ft_write_text(" умер\n", filo_dead);
+	if(filo_dead->count_eat  != filo_dead->all->number_of_times_each_philosopher_must_eat)
+		ft_write_text(" умер\n", filo_dead);
 	filo_dead->all->philo_dead = 1;
 	pthread_mutex_unlock(&filo_dead->table->time);
 	return (NULL);
@@ -77,18 +78,18 @@ void		*life_style(void *ptr)
 		filo->right_fork = filo->all->number_of_philosophers - 1;
 	status = filo->philo_id % 2; // 0 - четный 1 - нечетный
 	status = pthread_create(&thread_dead, NULL, ft_philo_dead, filo);
-	i = 0;
+	filo->count_eat = 0;
 	while (1)
 	{
-		// if(i == filo->all->number_of_times_each_philosopher_must_eat)
-		// 	break ;
+		if(filo->count_eat  == filo->all->number_of_times_each_philosopher_must_eat)
+			break ;
 		if (status == 1)
 			ft_philo_eat_neven(filo);
 		if (status != 1)
 			ft_philo_eat_even(filo);
 		if (filo->all->philo_dead == 1)
 			break ;
-		i++;
+		filo->count_eat ++;
 	}
 	status = pthread_join(thread_dead, (void**)&status_join);
 	return (NULL);

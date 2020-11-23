@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/22 23:32:07 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/23 11:55:21 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_ptr
     int         left_fork;
     int         right_fork;
     long        last_eat_time;
+    int         count_eat;
     t_data      *all;
     t_table     *table;
 }				t_ptr;
