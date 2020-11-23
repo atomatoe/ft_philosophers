@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:16:52 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 02:25:04 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,8 @@ int				ft_philosoph(t_data *all)
 		return (1);
 	if (!(ptr = (t_ptr *)malloc(sizeof(t_ptr) * all->number_of_philosophers)))
 		return (1);
-	pthread_mutex_init(&table.text, NULL); // init вывода текста
+	pthread_mutex_init(&table.text, NULL);
 	pthread_mutex_init(&table.time, NULL);
-	//pthread_mutex_init(&table.dead, NULL);
 	i = 0;
 	while (i != all->number_of_philosophers)
 	{

@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:18:04 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 02:44:58 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,34 @@ static int		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
 	return (0);
 }
 
+static int		ft_init_sem(t_table *table, t_data *all)
+{
+	sem_unlink("forks");
+	sem_unlink("text");
+	sem_unlink("waiter");
+	sem_unlink("death_philo");
+	if ((table->forks = sem_open("forks", O_CREAT, 0660,
+		all->number_of_philosophers)) == SEM_FAILED)
+		return (1);
+	if ((table->text = sem_open("text", O_CREAT, 0660, 1)) == SEM_FAILED)
+		return (1);
+	if ((table->waiter = sem_open("waiter", O_CREAT, 0660, 1)) == SEM_FAILED)
+		return (1);
+	if ((table->death_philo = sem_open("death_philo",
+		O_CREAT, 0660, 1)) == SEM_FAILED)
+		return (1);
+	return (0);
+}
+
 int				ft_philosoph(t_data *all)
 {
 	t_ptr	ptr[all->number_of_philosophers];
 	t_table	table;
 
 	all->philo_dead = 0;
-	sem_unlink("forks");
-	sem_unlink("text");
-	sem_unlink("waiter");
-	sem_unlink("death_philo");
-	if ((table.forks = sem_open("forks", O_CREAT, 0660, all->number_of_philosophers)) == SEM_FAILED)
-		return (1);
-	if ((table.text = sem_open("text", O_CREAT, 0660, 1)) == SEM_FAILED)
-		return (1);
-	if ((table.waiter = sem_open("waiter", O_CREAT, 0660, 1)) == SEM_FAILED)
-		return (1);
-	if ((table.death_philo = sem_open("death_philo", O_CREAT, NULL, 1)) == SEM_FAILED)
-		return (1);
+	ft_init_sem(&table, all);
 	if (ft_start_simulation(ptr, all, &table) == 1)
-		return (1);	
+		return (1);
 	sem_close(table.forks);
 	sem_close(table.text);
 	sem_close(table.waiter);

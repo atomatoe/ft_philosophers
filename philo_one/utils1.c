@@ -6,15 +6,15 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:17:02 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 02:27:29 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-void ft_usleep(long sec)
+void	ft_usleep(long sec)
 {
-	long fix_time;
+	long	fix_time;
 
 	fix_time = my_get_time();
 	while (my_get_time() - fix_time < sec)
@@ -23,16 +23,16 @@ void ft_usleep(long sec)
 
 void	ft_write_text(char *s, t_ptr *filo)
 {
-	long times;
-	char *text;
-	char *s1;
-	char *s2;
-	char *s3;
+	long	times;
+	char	*text;
+	char	*s1;
+	char	*s2;
+	char	*s3;
 
 	pthread_mutex_lock(&filo->table->text);
 	times = my_get_time();
 	s1 = ft_itoa(times - filo->all->start_time);
-	s2 = ft_strjoin(s1, " Философ ");
+	s2 = ft_strjoin(s1, " Philosopher ");
 	free(s1);
 	s1 = ft_itoa(filo->philo_id);
 	s3 = ft_strjoin(s2, s1);
@@ -48,7 +48,7 @@ void	ft_write_text(char *s, t_ptr *filo)
 
 void	ft_putstr(char *s)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -58,7 +58,7 @@ void	ft_putstr(char *s)
 	}
 }
 
-int	ft_atoi(const char *nptr)
+int		ft_atoi(const char *nptr)
 {
 	int		i;
 	long	g;
@@ -87,9 +87,10 @@ int	ft_atoi(const char *nptr)
 	return (g * minus);
 }
 
-long my_get_time(void)
+long	my_get_time(void)
 {
-    struct timeval time;
-    gettimeofday(&time, NULL);
-    return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }

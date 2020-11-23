@@ -6,23 +6,13 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 16:20:58 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:17:42 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 02:52:09 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-static size_t	ft_strlen(const char *b)
-{
-	int	a;
-
-	a = 0;
-	while (b[a] != '\0')
-		a++;
-	return (a);
-}
-
-static int	ft_len(int n)
+static int		ft_len(int n)
 {
 	int size;
 
@@ -40,7 +30,7 @@ static int	ft_len(int n)
 	return (size);
 }
 
-char		*ft_itoa(long nb)
+char			*ft_itoa(long nb)
 {
 	int		i;
 	char	*res;

@@ -6,13 +6,23 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:01 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 01:16:57 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 02:50:18 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-static int ft_parse_param(char **argv, t_data *all)
+size_t			ft_strlen(const char *b)
+{
+	int	a;
+
+	a = 0;
+	while (b[a] != '\0')
+		a++;
+	return (a);
+}
+
+static int		ft_parse_param(char **argv, t_data *all)
 {
 	all->number_of_times_each_philosopher_must_eat = -1;
 	all->number_of_philosophers = ft_atoi(argv[1]);
@@ -23,11 +33,16 @@ static int ft_parse_param(char **argv, t_data *all)
 		all->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	if (all->number_of_philosophers == 0 || all->time_to_die == 0 ||
 		all->time_to_eat == 0 || all->time_to_sleep == 0)
-		return(1);
-	return(0);
+		return (1);
+	if (all->number_of_philosophers < 2)
+	{
+		ft_putstr("please, give me fork, i'm die...d...\n");
+		return (1);
+	}
+	return (0);
 }
 
-static int ft_check_param(char **argv)
+static int		ft_check_param(char **argv)
 {
 	int i;
 	int j;
@@ -47,29 +62,17 @@ static int ft_check_param(char **argv)
 	return (0);
 }
 
-int main (int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_data all;
 
 	if (argc < 5 || argc > 6)
-	{
-		ft_putstr("Error number argument\n");
 		return (-1);
-	}
 	if (ft_check_param(argv) == 1)
-	{
-		ft_putstr("Error argument!\n");
 		return (-1);
-	}
 	if (ft_parse_param(argv, &all) == 1)
-	{
-		ft_putstr("Argument no zero!\n");
 		return (-1);
-	}
 	if (ft_philosoph(&all) == 1)
-	{
-		ft_putstr("ERROR ?! ?!");
 		return (-1);
-	}
 	return (0);
 }
