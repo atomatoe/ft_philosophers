@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:00 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 02:50:54 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 16:00:22 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int				ft_philosoph(t_data *all);
 void			ft_usleep(long sec);
 void			life_style(t_ptr *ptr);
 void			ft_putstr(char *s);
-void			ft_write_text(char *s, t_ptr *filo);
+void			ft_write_text(char *s, t_ptr *filo, int flag);
+void			ft_free_two(char *s1, char *s2);
 long			my_get_time(void);
 char			*ft_itoa(long nb);
 char			*ft_strjoin(char const *s1, char const *s2);

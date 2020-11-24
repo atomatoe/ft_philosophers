@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 02:49:04 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 15:59:49 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_usleep(long sec)
 		usleep(1);
 }
 
-void	ft_write_text(char *s, t_ptr *filo)
+void	ft_write_text(char *s, t_ptr *filo, int flag)
 {
 	long	times;
 	char	*text;
@@ -30,21 +30,23 @@ void	ft_write_text(char *s, t_ptr *filo)
 	char	*s3;
 
 	sem_wait(filo->table->text);
+	sem_wait(filo->table->time);
 	times = my_get_time();
+	sem_post(filo->table->time);
 	s1 = ft_itoa(times - filo->all->start_time);
 	s2 = ft_strjoin(s1, " Philosopher ");
 	free(s1);
 	s1 = ft_itoa(filo->philo_id + 1);
 	s3 = ft_strjoin(s2, s1);
-	free(s1);
-	free(s2);
+	ft_free_two(s1, s2);
 	text = ft_strjoin(s3, s);
 	free(s3);
 	sem_wait(filo->table->death_philo);
 	if (filo->all->philo_dead != 1)
 		ft_putstr(text);
 	free(text);
-	sem_post(filo->table->death_philo);
+	if (flag == 0)
+		sem_post(filo->table->death_philo);
 	sem_post(filo->table->text);
 }
 

@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:31 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 02:27:29 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 15:58:53 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_usleep(long sec)
 		usleep(1);
 }
 
-void	ft_write_text(char *s, t_ptr *filo)
+void	ft_write_text(char *s, t_ptr *filo, int flag)
 {
 	long	times;
 	char	*text;
@@ -30,19 +30,23 @@ void	ft_write_text(char *s, t_ptr *filo)
 	char	*s3;
 
 	pthread_mutex_lock(&filo->table->text);
+	pthread_mutex_lock(&filo->table->time);
 	times = my_get_time();
+	pthread_mutex_unlock(&filo->table->time);
 	s1 = ft_itoa(times - filo->all->start_time);
 	s2 = ft_strjoin(s1, " Philosopher ");
 	free(s1);
-	s1 = ft_itoa(filo->philo_id);
+	s1 = ft_itoa(filo->philo_id + 1);
 	s3 = ft_strjoin(s2, s1);
-	free(s1);
-	free(s2);
+	ft_free_two(s1, s2);
 	text = ft_strjoin(s3, s);
 	free(s3);
+	pthread_mutex_lock(&filo->table->death);
 	if (filo->all->philo_dead != 1)
 		ft_putstr(text);
 	free(text);
+	if (flag == 0)
+		pthread_mutex_unlock(&filo->table->death);
 	pthread_mutex_unlock(&filo->table->text);
 }
 

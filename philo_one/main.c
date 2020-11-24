@@ -6,11 +6,17 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:46:01 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 02:50:18 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 15:57:53 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+void			ft_free_two(char *s1, char *s2)
+{
+	free(s1);
+	free(s2);
+}
 
 size_t			ft_strlen(const char *b)
 {

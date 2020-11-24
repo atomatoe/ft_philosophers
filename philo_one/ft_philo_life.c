@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 17:43:21 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 02:24:42 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 15:07:38 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,37 @@
 static void	ft_philo_eat_even(t_ptr *filo)
 {
 	pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
-	ft_write_text(" has taken a fork\n", filo);
+	ft_write_text(" has taken a fork\n", filo, 0);
 	pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
-	ft_write_text(" has taken a fork\n", filo);
+	ft_write_text(" has taken a fork\n", filo, 0);
 	pthread_mutex_lock(&filo->table->time);
 	filo->last_eat_time = my_get_time();
 	pthread_mutex_unlock(&filo->table->time);
-	ft_write_text(" is eating\n", filo);
+	ft_write_text(" is eating\n", filo, 0);
 	ft_usleep(filo->all->time_to_eat);
 	pthread_mutex_unlock(&filo->table->forks[filo->right_fork]);
 	pthread_mutex_unlock(&filo->table->forks[filo->left_fork]);
-	ft_write_text(" is sleeping\n", filo);
+	ft_write_text(" is sleeping\n", filo, 0);
 	ft_usleep(filo->all->time_to_sleep);
-	ft_write_text(" is thinking\n", filo);
+	ft_write_text(" is thinking\n", filo, 0);
 }
 
 static void	ft_philo_eat_neven(t_ptr *filo)
 {
 	pthread_mutex_lock(&filo->table->forks[filo->left_fork]);
-	ft_write_text(" has taken a fork\n", filo);
+	ft_write_text(" has taken a fork\n", filo, 0);
 	pthread_mutex_lock(&filo->table->forks[filo->right_fork]);
-	ft_write_text(" has taken a fork\n", filo);
+	ft_write_text(" has taken a fork\n", filo, 0);
 	pthread_mutex_lock(&filo->table->time);
 	filo->last_eat_time = my_get_time();
 	pthread_mutex_unlock(&filo->table->time);
-	ft_write_text(" is eating\n", filo);
+	ft_write_text(" is eating\n", filo, 0);
 	ft_usleep(filo->all->time_to_eat);
 	pthread_mutex_unlock(&filo->table->forks[filo->left_fork]);
 	pthread_mutex_unlock(&filo->table->forks[filo->right_fork]);
-	ft_write_text(" is sleeping\n", filo);
+	ft_write_text(" is sleeping\n", filo, 0);
 	ft_usleep(filo->all->time_to_sleep);
-	ft_write_text(" is thinking\n", filo);
+	ft_write_text(" is thinking\n", filo, 0);
 }
 
 static void	*ft_philo_dead(void *ptr)
@@ -61,11 +61,12 @@ static void	*ft_philo_dead(void *ptr)
 			break ;
 		pthread_mutex_unlock(&filo_dead->table->time);
 	}
+	pthread_mutex_unlock(&filo_dead->table->time);
 	if (filo_dead->count_eat !=
 		filo_dead->all->number_of_times_each_philosopher_must_eat)
-		ft_write_text(" died\n", filo_dead);
+		ft_write_text(" died\n", filo_dead, 1);
 	filo_dead->all->philo_dead = 1;
-	pthread_mutex_unlock(&filo_dead->table->time);
+	pthread_mutex_unlock(&filo_dead->table->death);
 	return (NULL);
 }
 

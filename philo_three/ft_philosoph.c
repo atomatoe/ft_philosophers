@@ -6,7 +6,7 @@
 /*   By: atomatoe <atomatoe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:37:03 by atomatoe          #+#    #+#             */
-/*   Updated: 2020/11/24 02:36:44 by atomatoe         ###   ########.fr       */
+/*   Updated: 2020/11/24 16:04:31 by atomatoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void		ft_init_struct(t_ptr *ptr, t_data *all, t_table *table)
 	ptr->last_eat_time = my_get_time();
 }
 
-static void		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
+static int		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
 {
 	int		i;
 	int		philos[all->number_of_philosophers];
@@ -29,7 +29,8 @@ static void		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
 	all->start_time = my_get_time();
 	while (i < all->number_of_philosophers)
 	{
-		philo = fork();
+		if ((philo = fork()) == -1)
+			return (1);
 		if (philo == 0)
 		{
 			ptr[i].philo_id = i;
@@ -44,6 +45,7 @@ static void		ft_start_simulation(t_ptr *ptr, t_data *all, t_table *table)
 	sem_wait(table->death);
 	while (i < all->number_of_philosophers)
 		kill(philos[i++], SIGKILL);
+	return (0);
 }
 
 static int		ft_init_sem(t_table *table, t_data *all)
@@ -78,7 +80,8 @@ int				ft_philosoph(t_data *all)
 		return (1);
 	if (ft_init_sem(&table, all) == 1)
 		return (1);
-	ft_start_simulation(ptr, all, &table);
+	if (ft_start_simulation(ptr, all, &table) == 1)
+		return (1);
 	sem_close(table.forks);
 	sem_close(table.text);
 	sem_close(table.waiter);
